@@ -6,23 +6,23 @@ const endPage = $('.endPage')
 const endPageBtn = $('.endPage button')
 const startBtn = $('.startPage button')
 const box = $$('.boxes .box')
-var iconEndPage = $('.iconPlayerWon')
-var inputPlayer1 = $('.startPage #playerName1')
-var inputPlayer2 = $('.startPage #playerName2')
-var namePlayer1Input = $('.boardGame .namePlayer1')
-var namePlayer2Input = $('.boardGame .namePlayer2')
-var turn = 0
-var name1
-var name2
-var namePlayerWin = $('.endPage .playerName')
-var turnPlayer1 = {isTurn: true}
-var turnPlayer2 = {isTurn: false}
-var player1 = $('.boardGame .player1')
-var player2 = $('.boardGame .player2')
-var allCase1 = []
-var allCase2 = []
-var player1Win = false
-var player2Win = false
+let iconEndPage = $('.iconPlayerWon')
+let inputPlayer1 = $('.startPage #playerName1')
+let inputPlayer2 = $('.startPage #playerName2')
+let namePlayer1Input = $('.boardGame .namePlayer1')
+let namePlayer2Input = $('.boardGame .namePlayer2')
+let turn = 0
+let name1
+let name2
+let namePlayerWin = $('.endPage .playerName')
+let turnPlayer1 = {isTurn: true}
+let turnPlayer2 = {isTurn: false}
+let player1 = $('.boardGame .player1')
+let player2 = $('.boardGame .player2')
+let allCase1 = []
+let allCase2 = []
+let player1Win = false
+let player2Win = false
 // case to win
 const winCases = [
     ['1-1', '1-2', '1-3'],
@@ -52,18 +52,18 @@ startBtn.onclick = function() {
 
 
 // mouse in and mouse out
-var boxes = Array.from(box)
+const boxes = Array.from(box)
     boxes.forEach(function(box) {
 
         box.onmouseenter = function(e) {
             if (box.classList.contains('boxField1') || box.classList.contains('boxField2')) {
             
             } else {
-                if (turnPlayer1.isTurn==true) {
+                if (turnPlayer1.isTurn) {
                     e.path[0].innerHTML=`<i class="far fa-circle"></i>`
                     e.target.style.color="white"
                 }
-                if (turnPlayer2.isTurn==true) {
+                if (turnPlayer2.isTurn) {
                     e.path[0].innerHTML=`<i class="fas fa-times"></i>`
                     e.target.style.color="white"
                 }
@@ -86,24 +86,24 @@ function chooseBox(box) {
         if (box.classList.contains('boxField1') || box.classList.contains('boxField2')) {
 
         } else {
-            if(turnPlayer1.isTurn==true) {
+            if(turnPlayer1.isTurn) {
         e.path[0].innerHTML=`<i class="far fa-circle"></i>`
         e.path[0].classList.add('boxField1') 
         e.target.style.color="black"
         turn+=1
     }
-             if(turnPlayer2.isTurn==true) {
+             if(turnPlayer2.isTurn) {
         e.path[0].innerHTML=`<i class="fas fa-times"></i>`
         e.path[0].classList.add('boxField2') 
         e.target.style.color="black"
         turn+=1
     }
         //change turn
-        turnPlayer1.isTurn==true? turnPlayer1.isTurn = false:turnPlayer1.isTurn = true
-        turnPlayer2.isTurn==true? turnPlayer2.isTurn = false:turnPlayer2.isTurn = true
+        turnPlayer1.isTurn? turnPlayer1.isTurn = false:turnPlayer1.isTurn = true
+        turnPlayer2.isTurn? turnPlayer2.isTurn = false:turnPlayer2.isTurn = true
         //change tag above boardGame
-        turnPlayer1.isTurn==true? player1.classList.add('active') : player1.classList.remove('active')
-        turnPlayer2.isTurn==true? player2.classList.add('active') : player2.classList.remove('active')   
+        turnPlayer1.isTurn? player1.classList.add('active') : player1.classList.remove('active')
+        turnPlayer2.isTurn? player2.classList.add('active') : player2.classList.remove('active')   
     }
     check()
 }
@@ -113,10 +113,10 @@ function chooseBox(box) {
 function check() {
     winCases.forEach((cases) => {
 
-        var resultPlayer1 = cases.every((id) => {
+        let resultPlayer1 = cases.every((id) => {
             return document.getElementById(id).classList.contains('boxField1')
         })
-        var resultPlayer2 = cases.every((id) => {
+        let resultPlayer2 = cases.every((id) => {
             return document.getElementById(id).classList.contains('boxField2')
         })
         allCase1.push(resultPlayer1)
