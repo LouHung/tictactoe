@@ -1,0 +1,215 @@
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat',sans-serif;
+}
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+/* start page */
+.startPage{
+    width: 100%;
+    height: 100vh;
+    display: flex;/*display startPage*/
+    align-items: center;
+    background: rgb(15, 183, 195);
+}
+.startPage .container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 20em;
+    justify-content: center;
+    align-items: center;
+    
+}
+.startPage h1{
+    width: 1em;
+    font-size: 6rem;
+    line-height:68px;
+    margin-bottom: .5em;
+    margin-left: -1em ;
+}
+.startPage .playerNameInput{
+    margin-bottom:10px;
+    height:3em;
+    border-radius:5px;
+    border: none;
+    padding-left: 10px;
+}
+.startPage button{
+    height:4em;
+    width: 10em;
+    color:rgb(15, 183, 195);
+    font-weight: 700;
+    border-radius: 5px;
+    border: 2px solid rgb(15, 183, 195); 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.startPage button:hover{
+    color: white;
+    background: rgb(15, 183, 195);
+    border: 2px solid white; 
+
+}
+/* end start page */
+
+/* start boardGame */
+.boardGame{
+    display: none;/* display boardgame: flex*/
+    flex-direction: column;
+    margin:auto;
+    justify-content: center;
+    text-align: center;
+}
+.boardGame h1{
+    width: 1em;
+    line-height: 22px;
+    margin: .5em auto;
+
+}
+.boardGame ul{
+    list-style: none;
+    display: flex;
+    gap: 5em
+}
+.boardGame ul li{
+    color: rgb(170, 170, 170);;
+    border:1px solid rgb(170, 170, 170);
+    width:13em;
+    height: 6em;
+    padding:1em
+}
+/* change background when change turn */
+.boardGame ul .player1.active{
+    background: orange;
+    color: white;
+    border: none;
+    transition: all .3 ease
+}
+.boardGame ul .player2.active{
+    background: rgb(70, 70, 134);
+    color: white;
+    border: none;
+    transition: all .3 ease
+}
+/*  */
+.boardGame ul i{
+    font-size: 3rem;
+}
+.boardGame .boxes{
+    display: grid;
+    grid: repeat(3,1fr)/repeat(3,9em);
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+.boardGame .boxes .box{
+    margin:auto;
+    height:8em;
+    width:8em;
+    margin-top: 1em;
+    background:rgb(219, 219, 219);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease
+}
+.boardGame .boxes .box i{
+    /* color: white; */
+    font-size:6rem;
+    margin:15px auto;
+    pointer-events: none;
+}
+.boardGame .boxes .box.boxField1{
+    background: orange;
+}
+.boardGame .boxes .box.boxField2{
+    background: rgb(70, 70, 134);
+
+}
+.boardGame .boxes .box span{
+    display: block;
+    pointer-events: none;
+}
+.boardGame .boxes .box span i{
+    font-size:6rem;
+    margin:15px auto;
+    pointer-events: none;
+    color: black
+}
+/* end boardGame */
+
+/*start end page */
+.endPage{
+    width: 100%;
+    height: 100vh;
+    display: none;/*flex*/
+    /* display: none; */
+    align-items: center;
+    background:orange;
+}
+.endPage .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin:auto;
+}
+.endPage h1{
+    width: 1em;
+    line-height: 22px;
+    margin: .5em auto;
+    color: #fff;
+}
+.endPage .playerWon{
+    font-size:6rem;
+    font-weight: 600;
+    line-height: 1em;
+    position: relative;
+    margin-top: 1em;
+    height:3em;
+}
+.playerWon .playerNameWon{
+     z-index:99;
+    padding-top: 3em;
+    position: relative;
+    display: unset
+}
+.endPage .iconPlayerWon{
+    color: #fff;
+    position: absolute;
+    top: -.3em;
+    right: 0;
+    left: 0;
+    font-size: 15rem;
+    z-index: 0;
+}
+.endPage .drawGame{
+    display: none;
+}
+
+
+.endPage button{
+    height:4em;
+    width: 10em;
+    color:inherit;
+    font-weight: 700;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: -4em auto 0 auto;
+    position: relative;
+    z-index: 99;
+}
+.endPage button:hover{
+    color: white;
+    background: none;
+    border: 2px solid white; 
+
+}
+/* end end page*/
