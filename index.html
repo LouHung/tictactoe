@@ -17,7 +17,8 @@
            <h1>Tic Tac Toe</h1>
            <input type="text" placeholder="playerName1" id='playerName1' class='playerNameInput' autocomplete="off" required>
            <input type="text" placeholder="playerName2" id='playerName2' class='playerNameInput' autocomplete="off" required>
-            <button>Start game</button>
+            <button id="startBtn">Start game</button>
+            <button id='onePlayerBtn'>1 Player</button>
        </div>
     </div>
 <!-- boardGame -->
@@ -26,11 +27,11 @@
         <ul>
             <li id='player' class='player1 active'>
                 <div><i class="far fa-circle"></i></div>
-                <div class="namePlayer1">name1</div>
+                <div class="namePlayerTag1">name1</div>
             </li>
             <li id='player' class='player2'>
                 <div><i class="fas fa-times"></i></div>
-                <div class="namePlayer2">name2</div>
+                <div class="namePlayerTag2">name2</div>
             </li>
         </ul>
         <div class="boxes">
