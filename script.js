@@ -4,13 +4,15 @@ const startPage = $('.startPage')
 const boardGame = $('.boardGame')
 const endPage = $('.endPage')
 const endPageBtn = $('.endPage button')
-const startBtn = $('.startPage button')
+const startBtn = $('.startPage #startBtn')
+const onePlayerBtn= $('.startPage #onePlayerBtn')
 const box = $$('.boxes .box')
+const boxes = Array.from(box)
 let iconEndPage = $('.iconPlayerWon')
 let inputPlayer1 = $('.startPage #playerName1')
 let inputPlayer2 = $('.startPage #playerName2')
-let namePlayer1Input = $('.boardGame .namePlayer1')
-let namePlayer2Input = $('.boardGame .namePlayer2')
+let namePlayer1Input = $('.boardGame .namePlayerTag1')
+let namePlayer2Input = $('.boardGame .namePlayerTag2')
 let turn = 0
 let name1
 let name2
@@ -23,6 +25,15 @@ let allCase1 = []
 let allCase2 = []
 let player1Win = false
 let player2Win = false
+let drawGame = false
+let option = '1player'
+let boxWasChosen1 = function(box) {
+    return box.classList.contains('boxField1')
+}
+let boxWasChosen2 = function(box) {
+    return box.classList.contains('boxField2')
+}
+
 // case to win
 const winCases = [
     ['1-1', '1-2', '1-3'],
@@ -35,24 +46,22 @@ const winCases = [
     ['3-1', '3-2', '3-3']
 
 ]
-reset()
-//load boardGame
+onePlayerBtn.onclick=function(){
+    renderBoard()
+}
+
 startBtn.onclick = function() {
     if (inputPlayer1.value == '' || inputPlayer2.value == '') {
         alert('Please enter player name')
     } else {
-        startPage.style.display = 'none'
-        boardGame.style.display = 'flex'
-        name1 = inputPlayer1.value
-        name2 = inputPlayer2.value
-        namePlayer1Input.innerHTML = name1
-        namePlayer2Input.innerHTML = name2
+        option='2player'
+       renderBoard()
     }
 }
 
 
 // mouse in and mouse out
-const boxes = Array.from(box)
+
     boxes.forEach(function(box) {
 
         box.onmouseenter = function(e) {
@@ -70,7 +79,7 @@ const boxes = Array.from(box)
             }
         }
         box.onmouseout = function(e) {
-            if (box.classList.contains('boxField1') || box.classList.contains('boxField2')) {
+            if (boxWasChosen1(box) || boxWasChosen2(box)) {
               
             } else {
                 e.path[0].innerHTML = ``    
@@ -78,12 +87,24 @@ const boxes = Array.from(box)
         }
       chooseBox(box)  
 })
-   
-    
+
+
+//load boardGame
+function renderBoard(){
+    startPage.style.display = 'none'
+    boardGame.style.display = 'flex'
+    name1 = inputPlayer1.value
+    name2 = inputPlayer2.value
+    namePlayer1Input.innerHTML = name1
+    namePlayer2Input.innerHTML = name2
+}
+
+
 //choose box add class boxField1 and boxField2
 function chooseBox(box) {
     box.onclick = function(e) {
-        if (box.classList.contains('boxField1') || box.classList.contains('boxField2')) {
+       
+        if (boxWasChosen1(box) || boxWasChosen2(box)) {
 
         } else {
             if(turnPlayer1.isTurn) {
@@ -91,6 +112,7 @@ function chooseBox(box) {
         e.path[0].classList.add('boxField1') 
         e.target.style.color="black"
         turn+=1
+
     }
              if(turnPlayer2.isTurn) {
         e.path[0].innerHTML=`<i class="fas fa-times"></i>`
@@ -102,11 +124,20 @@ function chooseBox(box) {
         turnPlayer1.isTurn? turnPlayer1.isTurn = false:turnPlayer1.isTurn = true
         turnPlayer2.isTurn? turnPlayer2.isTurn = false:turnPlayer2.isTurn = true
         //change tag above boardGame
-        turnPlayer1.isTurn? player1.classList.add('active') : player1.classList.remove('active')
-        turnPlayer2.isTurn? player2.classList.add('active') : player2.classList.remove('active')   
+        changeFlag()
+        check()//check player win =>player1win = true
+        if(!player1Win&&drawGame==false&&option=="1player"){ 
+            randomBox(boxes)
+        }
     }
     check()
+
+    }
 }
+
+function changeFlag(){
+    turnPlayer1.isTurn? player1.classList.add('active') : player1.classList.remove('active')
+    turnPlayer2.isTurn? player2.classList.add('active') : player2.classList.remove('active')   
 }
 
 // check who win
@@ -126,32 +157,29 @@ function check() {
         player2Win = !allCase2.every((boolean) => {return boolean==false})
     
     })
-    
+    //render who win
     if(player1Win) {
-        endPage.style.display = 'flex'
-        boardGame.style.display = 'none'
-        endPage.style.background = "orange"
-        namePlayerWin.innerHTML = name1
-        iconEndPage.innerHTML = '<i class="far fa-circle"></i>'
-        player1Win=true
-        turn=0//prevent it move to draw condition
+        renderWhoWin(name1,'orange','<i class="far fa-circle"></i>')
+
     }
     if(player2Win) {
-        endPage.style.display = 'flex'
-        boardGame.style.display = 'none'
-        namePlayerWin.innerHTML = name2;
-        endPage.style.background = "rgb(70, 70, 134)"
-        iconEndPage.innerHTML = '<i class="fas fa-times"></i>'
-        turn=0
+        renderWhoWin(name2,'rgb(70, 70, 134)','<i class="fas fa-times"></i>')
+        
     }
     if(turn==9&&player1Win==false&&player2Win==false) {
+        drawGame = true
         draw()
     }
     
-    allCase1 = []
-    allCase2 = []
 }
-
+function renderWhoWin(name,background,icon){
+    endPage.style.display = 'flex'
+    boardGame.style.display = 'none'
+    namePlayerWin.innerHTML = name;
+    endPage.style.background = background
+    iconEndPage.innerHTML = icon
+    turn=0//prevent it move to draw condition
+}
 
 
 function draw() {
@@ -165,6 +193,7 @@ function draw() {
     }
 }
 
+reset()
 
 function reset() {
     endPageBtn.onclick = function() {
@@ -180,12 +209,55 @@ function reset() {
             $('.playerNameWon').style.display = 'unset'
             iconEndPage.style.display = 'block'
         })
-           
+                player1Win=false
+                player2Win=false
+                turnPlayer1.isTurn = true
                 turnPlayer2.isTurn = false;
                 turn=0
-                turnPlayer1.isTurn = true
+                drawGame=false
                 //reset tag
-                turnPlayer1.isTurn == true? player1.classList.add('active') : player1.classList.remove('active')
-                turnPlayer2.isTurn == true? player2.classList.add('active') : player2.classList.remove('active')       
+                changeFlag()  
+                allCase1 = []
+                allCase2 = [] 
     }
 }
+
+function autoChoose(box,random) {
+    box[random].innerHTML=`<i class="fas fa-times"></i>`
+    box[random].classList.add('boxField2') 
+    box[random].style.color="black"
+    turn+=1
+    turnPlayer1.isTurn? turnPlayer1.isTurn = false:turnPlayer1.isTurn = true
+    turnPlayer2.isTurn? turnPlayer2.isTurn = false:turnPlayer2.isTurn = true
+    changeFlag()
+}
+
+
+function randomBox(boxes) {
+    
+    let boxChosenRandom1 = function(random){return boxes[random].classList.contains('boxField1')}
+    let boxChosenRandom2 = function(random){return boxes[random].classList.contains('boxField2')}
+    
+            setTimeout(function() {
+                let random = Math.floor(Math.random()*9)
+    
+                while(boxChosenRandom1(random) || boxChosenRandom2(random)){
+                    random = Math.floor(Math.random()*9)
+                }
+                
+                autoChoose(boxes,random)
+          
+                //  let a 
+                //  a= boxes.filter(function(box){
+                //  return box.classList.contains('boxField1') || box.classList.contains('boxField2')
+                //      })
+        
+                //  if(a.length==8&&turnPlayer2.isTurn){
+                //      player2Win=true
+                //  }
+                 check()
+            },100)
+            
+        }
+       
+        
